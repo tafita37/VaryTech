@@ -1,17 +1,25 @@
 create database varytech;
 \c varytech
 
-CREATE TABLE roles (
+CREATE TABLE role (
     id SERIAL PRIMARY KEY,
-    nom VARCHAR(100) NOT NULL UNIQUE
+    nom VARCHAR(50) NOT NULL UNIQUE
 );
 
-CREATE TABLE users (
+CREATE TABLE admin (
     id SERIAL PRIMARY KEY,
-    username VARCHAR(150) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password text NOT NULL
+);
+
+CREATE TABLE utilisateur (
+    id SERIAL PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    prenom VARCHAR(100) NOT NULL,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    password text NOT NULL,
     date_inscription TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-    role_id BIGINT REFERENCES roles(id) ON DELETE SET NULL
+    role_id INT REFERENCES role(id) ON DELETE SET NULL
 );
 
 -- CREATE TABLE type_sol (

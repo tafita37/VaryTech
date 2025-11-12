@@ -1,0 +1,95 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block title %}Inscription - VaryTech{% endblock %} 
+
+{% block content %}
+<section class="wf100 p80">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="myaccount-form">
+          <h3>Créer votre compte</h3>
+          <form method="post" action="{% url 'register_user' %}">
+            {% csrf_token %}
+            <ul class="row">
+              <li class="col-md-6">
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Nom"
+                    name="nom"
+                    required
+                  />
+                </div>
+              </li>
+              <li class="col-md-6">
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Prénom"
+                    name="prenom"
+                    required
+                  />
+                </div>
+              </li>
+              <li class="col-md-6">
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Username"
+                    name="username"
+                    required
+                  />
+                </div>
+              </li>
+              <li class="col-md-6">
+                <div class="input-group">
+                  <select name="role" class="form-control">
+                     <option value="" disabled selected>Choisir un rôle</option>
+                     {% for role in roles %}
+                        <option value="{{ role.id }}">{{ role.nom }}</option>
+                     {% endfor %}
+                  </select>
+                </div>
+              </li>
+              <li class="col-md-6">
+                <div class="input-group">
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Mot de passe"
+                    name="password"
+                  />
+                </div>
+              </li>
+              <li class="col-md-6">
+                <div class="input-group">
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Confirmez votre mot de passe"
+                    name="confirm_password"
+                  />
+                </div>
+              </li>
+              <li class="col-md-12">
+                  <div class="input-group form-check">
+                     <a href="{% url 'home' %}">Se connecter</a>
+                  </div>
+               </li>
+              <li class="col-md-12">
+                <button class="register">S'inscrire</button>
+              </li>
+            </ul>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Causes End-->
+{% endblock %}

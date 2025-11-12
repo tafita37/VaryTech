@@ -1,0 +1,66 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link
+      rel="icon"
+      href="{% static 'authentification/images/favicon.png' %}"
+    />
+    <title>{% block title %}VaryTech{% endblock %}</title>
+    <!-- CSS FILES START -->
+    <link
+      href="{% static 'authentification/css/custom.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'authentification/css/color.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'authentification/css/responsive.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'authentification/css/owl.carousel.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'authentification/css/bootstrap.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'authentification/css/prettyPhoto.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'authentification/css/all.min.css' %}"
+      rel="stylesheet"
+    />
+    <!-- CSS FILES End -->
+  </head>
+  <body>
+    <div class="wrapper">
+      {% include 'include/horizontal_menu.html' %}
+      {% include 'include/inner_header.html' %}
+      {% block content %}{% endblock %}
+      {% include 'include/footer.html' %}
+    </div>
+    <!--   JS Files Start  -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jquery-migrate-1.4.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.prettyPhoto.js"></script>
+    <script src="js/isotope.min.js"></script>
+    <script src="js/custom.js"></script>
+  </body>
+</html>
