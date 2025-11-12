@@ -1,0 +1,50 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block title %}Login - VaryTech{% endblock %} 
+
+{% block content %}
+<section class="wf100 p80">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="login-box">
+          <h3>Se connecter</h3>
+          <form method="post" action="{% url 'login_user' %}">
+            {% csrf_token %}
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Username"
+                name="username"
+                required
+              />
+            </div>
+            <div class="input-group">
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Mot de passe"
+                name="password"
+                required
+              />
+            </div>
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-danger">{{ message }}</div>
+              {% endfor %}
+            {% endif %}
+            <div class="input-group form-check">
+              <a href="{% url 'register_user_page' %}" style="color : white; text-decoration:underline;">S'inscrire</a>
+            </div>
+            <div class="input-group">
+              <button class="login-btn">Se connecter</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
