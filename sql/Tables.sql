@@ -22,19 +22,21 @@ CREATE TABLE utilisateur (
     role_id INT REFERENCES role(id) ON DELETE SET NULL
 );
 
--- CREATE TABLE type_sol (
---     id SERIAL PRIMARY KEY,
---     nom VARCHAR(100) NOT NULL UNIQUE
--- );
+CREATE TABLE type_sol (
+    id SERIAL PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL UNIQUE
+);
 
--- CREATE TABLE parcelles (
---     id SERIAL PRIMARY KEY,
---     nom VARCHAR(150) NOT NULL,
---     superficie NUMERIC(12,3) NOT NULL, -- unité (ha, m2) à préciser
---     id_type_sol BIGINT REFERENCES type_sol(id) ON DELETE SET NULL,
---     humidite_moyenne NUMERIC(6,3),
---     temperature_moyenne NUMERIC(6,3)
--- );
+CREATE TABLE parcelle (
+    id SERIAL PRIMARY KEY, 
+    nom VARCHAR(100) UNIQUE NOT NULL,
+    photo_a VARCHAR(100) NOT NULL,
+    photo_e TEXT UNIQUE NOT NULL,
+    superficie DOUBLE PRECISION NOT NULL, -- unité (ha, m2) à préciser
+    type_sol_id INT REFERENCES type_sol(id) NOT NULL,
+    humidite_moyenne DOUBLE PRECISION,
+    temperature_moyenne DOUBLE PRECISION
+);
 
 -- CREATE TABLE ressources (
 --     id SERIAL PRIMARY KEY,
