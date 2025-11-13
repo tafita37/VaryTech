@@ -10,6 +10,7 @@ def register_user_page(request):
     roles=Role.objects.all()
     context = {
         # "css_css" : ['vertical-layout-light/style.css'],
+        "titre_inner" : "Mon Compte",
         "roles" : roles
     }
     return render(request, "views/register_user.html", context)
@@ -18,6 +19,7 @@ def register_user_page(request):
 def login_user_page(request):
     context = {
         # "css_css" : ['vertical-layout-light/style.css'],
+        "titre_inner" : "Mon Compte",
     }
     return render(request, "views/login_user.html", context)
 
