@@ -1,0 +1,274 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block title %}Cultures - VaryTech{% endblock %} 
+
+{% block content %}
+<section class="wf100 p80 blog">
+  <div class="causes-listing">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Liste des cultures de la {{parcelle.nom}}</h3>
+        <!-- Bouton Créer -->
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#createCultureModal"
+        >
+          <i class="fas fa-plus"></i> Créer
+        </button>
+      </div>
+      <div class="row">
+        {% for culture in cultures %}
+        <div class="col-lg-12 col-md-12">
+          <!--Cause start -->
+          <div class="campaign-box">
+            <div class="campaign-thumb">
+              <a href="#"><i class="fas fa-link"></i></a>
+              <img
+                src="{{ MEDIA_URL }}{{ culture.photoE }}"
+                alt="{{ culture.nom }}"
+              />
+            </div>
+            <div class="campaign-txt ms-4">
+              <h4 class="mb-3">{{ culture.produit.nom }}</h4>
+
+              <div class="row mb-3">
+                <div class="col-md-4 mb-2">
+                  <span class="text-muted">Date de semis</span><br />
+                  <strong>{{ culture.dateSemis|date:"d/m/Y" }}</strong>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <span class="text-muted">Quantité semée</span><br />
+                  <strong>{{ culture.quantiteSemee }} kg</strong>
+                </div>
+
+                <div class="col-md-4 mb-2">
+                  <span class="text-muted">Rendement estimé</span><br />
+                  <strong>{{ culture.rendementEstime }} kg</strong>
+                </div>
+                <p> {{ culture.observation }} </p>
+              </div>
+              <a href="{% url 'culture_detail_page' culture.id %}" class="dn-btn">Voir les détails</a>
+            </div>
+          </div>
+          <!--Cause end -->
+        </div>
+        {% empty %}
+        <p>Aucune culture trouvée.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="createCultureModal"
+  tabindex="-1"
+  aria-labelledby="createCultureLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form
+        method="post"
+        action="{% url 'new_culture' %}"
+        enctype="multipart/form-data"
+        id="multiStepForm"
+      >
+        {% csrf_token %}
+
+        <div class="modal-header">
+          <h5 class="modal-title">Créer une culture</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          >X</button>
+        </div>
+
+        <div class="modal-body">
+          <!-- ----------------- ÉTAPE 1 ----------------- -->
+          <div class="step" id="step1">
+            <div class="mb-3">
+              <label class="form-label">Produit</label>
+              <select name="produit" class="form-control" required>
+                <option value="" disabled selected>Choisir un produit</option>
+                {% for produit in produits %}
+                <option value="{{ produit.id }}">{{ produit.nom }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <input type="hidden" name="parcelle" value="{{ parcelle.id }}" />
+
+            <div class="mb-3">
+              <label class="form-label">Date de semis</label>
+              <input
+                type="date"
+                name="dateSemis"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Date de récolte prévue</label>
+              <input
+                type="date"
+                name="dateRecoltePrevue"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Rendement estimé</label>
+              <input
+                type="number"
+                step="0.01"
+                name="rendementEstime"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Quantité semée</label>
+              <input
+                type="number"
+                step="0.01"
+                name="quantiteSemee"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Photo</label>
+              <input
+                type="file"
+                name="photo"
+                class="form-control"
+                accept="image/*"
+                required
+              />
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-primary float-end"
+              onclick="nextStep()"
+            >
+              Suivant
+            </button>
+          </div>
+
+          <!-- ----------------- ÉTAPE 2 ----------------- -->
+          <div class="step d-none" id="step2">
+            <h6 class="mb-3">Ressources nécessaires</h6>
+
+            <div id="resources-container">
+              <!-- Premier item -->
+              <div class="resource-item mb-3">
+                <div class="row">
+                  <div class="col-md-6">
+                    <select name="ressource[]" class="form-control" required>
+                      <option value="" disabled selected>
+                        Choisir une ressource
+                      </option>
+                      {% for ressource in ressources %}
+                      <option value="{{ ressource.id }}">
+                        {{ ressource.nom }}
+                      </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <input
+                      type="number"
+                      step="0.01"
+                      name="quantite[]"
+                      class="form-control"
+                      placeholder="Quantité"
+                      required
+                    />
+                  </div>
+
+                  <div class="col-md-1">
+                    <button type="button" class="btn btn-danger remove-item">
+                      X
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-secondary mb-3"
+              id="add-resource"
+            >
+              Ajouter une ressource
+            </button>
+
+            <div class="d-flex justify-content-between">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="prevStep()"
+              >
+                Précédent
+              </button>
+              <button type="submit" class="btn btn-success">Créer</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentStep = 1;
+
+  function showStep(n) {
+    document
+      .querySelectorAll(".step")
+      .forEach((s) => s.classList.add("d-none"));
+    document.getElementById("step" + n).classList.remove("d-none");
+  }
+
+  function nextStep() {
+    currentStep++;
+    showStep(currentStep);
+  }
+
+  function prevStep() {
+    currentStep--;
+    showStep(currentStep);
+  }
+
+  // Ajout dynamique d'une ressource
+  document.getElementById("add-resource").onclick = function () {
+    let container = document.getElementById("resources-container");
+    let clone = container.children[0].cloneNode(true);
+    clone.querySelector("input").value = "";
+    container.appendChild(clone);
+  };
+
+  // Suppression
+  document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("remove-item")) {
+      if (document.querySelectorAll(".resource-item").length > 1) {
+        e.target.closest(".resource-item").remove();
+      }
+    }
+  });
+</script>
+{% endblock %}

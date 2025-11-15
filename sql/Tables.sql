@@ -38,35 +38,51 @@ CREATE TABLE parcelle (
     temperature_moyenne DOUBLE PRECISION
 );
 
--- CREATE TABLE ressources (
---     id SERIAL PRIMARY KEY,
---     nom VARCHAR(150) NOT NULL,
---     prix NUMERIC(14,4) NOT NULL DEFAULT 0
--- );
+create table unite(
+    id SERIAL PRIMARY KEY,
+    nom VARCHAR(20) NOT NULL UNIQUE
+);
 
--- CREATE TABLE produits (
---     id SERIAL PRIMARY KEY,
---     nom VARCHAR(150) NOT NULL,
---     prix NUMERIC(14,4) NOT NULL DEFAULT 0
--- );
+CREATE TABLE ressource (
+    id SERIAL PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL,
+    prix NUMERIC(14,4) NOT NULL DEFAULT 0,
+    unite_id BIGINT REFERENCES unite(id) NOT NULL
+);
 
--- CREATE TABLE cultures (
---     id SERIAL PRIMARY KEY,
---     id_produit BIGINT REFERENCES produits(id) ON DELETE SET NULL,
---     id_parcelle BIGINT REFERENCES parcelles(id) ON DELETE SET NULL,
---     date_semis DATE,
---     date_recolte_prevu DATE,
---     rendement_estime NUMERIC(14,4),
---     besoin_eau NUMERIC(14,4),
---     statut VARCHAR(100)
--- );
+CREATE TABLE produit (
+    id SERIAL PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL,
+    prix NUMERIC(14,4) NOT NULL DEFAULT 0
+);
 
--- CREATE TABLE culture_ressource (
---     id SERIAL PRIMARY KEY,
---     id_culture BIGINT NOT NULL REFERENCES cultures(id) ON DELETE CASCADE,
---     id_ressource BIGINT NOT NULL REFERENCES ressources(id) ON DELETE RESTRICT,
---     quantite_resource NUMERIC(14,4) NOT NULL
--- );
+CREATE TABLE culture (
+    id SERIAL PRIMARY KEY,
+    produit_id BIGINT REFERENCES produit(id) ON DELETE SET NULL,
+    parcelle_id BIGINT REFERENCES parcelle(id) ON DELETE SET NULL,
+    photo_a VARCHAR(100) NOT NULL,
+    photo_e TEXT UNIQUE NOT NULL,
+    date_semis DATE NOT NULL,
+    date_recolte_prevu DATE,
+    date_recolte_reelle DATE,
+    rendement_estime NUMERIC(14,4),
+    rendement_reel NUMERIC(14,4),
+    quantite_semee NUMERIC(14,4)
+);
+
+CREATE TABLE culture_ressource (
+    id SERIAL PRIMARY KEY,
+    culture_id BIGINT NOT NULL REFERENCES culture(id) ON DELETE CASCADE,
+    ressource_id BIGINT NOT NULL REFERENCES ressource(id) ON DELETE RESTRICT,
+    quantite_resource NUMERIC(14,4) NOT NULL
+);
+
+CREATE TABLE recolte (
+    id SERIAL PRIMARY KEY,
+    culture_id BIGINT REFERENCES culture(id) ON DELETE CASCADE,
+    date_recolte DATE NOT NULL,
+    quantite_recoltee FLOAT NOT NULL
+);
 
 -- CREATE TABLE meteo (
 --     id SERIAL PRIMARY KEY,
