@@ -1,9 +1,11 @@
 # views.py
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET, require_POST
+from authentification.model.Admin import Admin
 from authentification.model.Role import Role
 from authentification.model.Utilisateur import Utilisateur
 from django.contrib import messages
+from django.contrib.auth import logout
 
 @require_GET
 def register_user_page(request):
@@ -49,9 +51,15 @@ def login_user(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
     try:
-        user = Utilisateur.objects.get(username=username, password=password)
+        user = Admin.objects.get(username=username, password=password)
         request.session['user_id'] = user.id
-        return redirect('home')  # page après connexion réussie
+        return redirect('parcelle_page')  # page après connexion réussie
     except Utilisateur.DoesNotExist:
         messages.error(request, "Nom d'utilisateur ou mot de passe incorrect")
         return redirect('home')
+    
+@require_GET
+def logout_url(request):
+    logout(request)
+    messages.success(request, "Vous avez été déconnecté avec succès.")
+    return redirect('login_user_page')
