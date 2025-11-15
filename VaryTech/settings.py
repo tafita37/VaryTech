@@ -27,6 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['varytech.onrender.com']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://varytech.onrender.com',
+]
+
+
 
 # Application definition
 
