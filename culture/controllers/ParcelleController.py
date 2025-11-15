@@ -1,6 +1,6 @@
 # views.py
 from django.conf import settings
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET, require_POST
 from culture.model.Culture import Culture
 from culture.model.CultureRessource import CultureRessource

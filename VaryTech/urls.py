@@ -26,4 +26,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('authentification/', include('authentification.urls.urls')),
     path('culture/', include('culture.urls.urls')),
+    path('meteo/', include('meteo.urls.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

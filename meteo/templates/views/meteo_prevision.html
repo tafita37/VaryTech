@@ -1,0 +1,110 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block title %}Météo - VaryTech{% endblock %} 
+
+{% block content %}
+<!--Causes Start-->
+<section class="wf100 p80 events">
+  <div class="event-list-two">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          {% for day in forecast %}
+          <div
+            class="event-list-box"
+            style="padding: 20px; margin-bottom: 25px"
+          >
+            <!-- Icône + Date -->
+            <div class="event-thumb" style="margin-bottom: 10px">
+              <img
+                src="https:{{ day.day.condition.icon }}"
+                alt="weather icon"
+              />
+            </div>
+
+            <h3 style="margin-bottom: 10px">{{ day.date }}</h3>
+
+            <!-- ===== 1. RÉSUMÉ ===== -->
+            <div class="event-meta" style="margin-bottom: 15px">
+              <ul>
+                <li>
+                  <strong>Condition :</strong> {{ day.day.condition.text }}
+                </li>
+                <li><strong>UV :</strong> {{ day.day.uv }}</li>
+                <li>
+                  <strong>Humidité moyenne :</strong> {{ day.day.avghumidity }}%
+                </li>
+                <li>
+                  <strong>Couverture nuageuse :</strong> {{
+                  day.day.daily_chance_of_rain }}%
+                </li>
+              </ul>
+            </div>
+
+            <!-- ===== 2. TEMPÉRATURES ===== -->
+            <div class="event-txt" style="margin-bottom: 15px">
+              <h4>Températures</h4>
+              <ul>
+                <li><strong>Max :</strong> {{ day.day.maxtemp_c }}°C</li>
+                <li><strong>Min :</strong> {{ day.day.mintemp_c }}°C</li>
+                <li><strong>Moyenne :</strong> {{ day.day.avgtemp_c }}°C</li>
+                <li><strong>Ressenti :</strong> {{ day.day.avgtemp_c }}°C</li>
+              </ul>
+            </div>
+
+            <!-- ===== 3. VENT / PLUIE ===== -->
+            <div class="event-txt">
+              <h4>Données Atmosphériques</h4>
+              <ul>
+                <li>
+                  <strong>Vent max :</strong> {{ day.day.maxwind_kph }} km/h
+                </li>
+                <li>
+                  <strong>Pluie journalière :</strong> {{ day.day.totalprecip_mm
+                  }} mm
+                </li>
+                <li>
+                  <strong>Probabilité de pluie :</strong> {{
+                  day.day.daily_chance_of_rain }}%
+                </li>
+                <li>
+                  <strong>Visibilité moyenne :</strong> {{ day.day.avgvis_km }}
+                  km
+                </li>
+              </ul>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="gt-pagination mt20">
+            <nav>
+              <ul class="pagination">
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <i class="fas fa-angle-left"></i>
+                  </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <i class="fas fa-angle-right"></i>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Causes End-->
+{% endblock %}
