@@ -27,7 +27,7 @@ class Utilisateur(models.Model):
         unique=True,  
         db_column='password'
     )
-    date_inscription = models.DateTimeField(auto_now_add=True)
+    dateInscription = models.DateTimeField(auto_now_add=True)
     role=models.ForeignKey(Role, models.DO_NOTHING, db_column='role_id')
 
     class Meta:

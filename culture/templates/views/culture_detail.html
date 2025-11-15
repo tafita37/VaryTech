@@ -1,0 +1,137 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block title %}Détails - VaryTech{% endblock %} 
+
+{% block content %}
+<section class="wf100 p80 blog">
+  <div class="blog-details">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9 col-md-8">
+          <!--Blog Single Content Start-->
+          <div class="blog-single-content">
+            <div class="blog-single-thumb">
+              <img
+                src="{{ MEDIA_URL }}{{ culture.photoE }}"
+                alt="{{ culture.nom }}"
+              />
+            </div>
+            <div class="single-donation-box wf100">
+              <div class="sdb-left">
+                <ul class="list-unstyled m-0">
+                  <li class="mb-1">
+                    <span class="text-muted">Date de semis :</span>
+                    <strong>{{ culture.dateSemis|date:"d/m/Y" }}</strong>
+                  </li>
+
+                  <li class="mb-1">
+                    <span class="text-muted">Date de début de récolte prévue :</span>
+                    <strong>{{ culture.dateRecoltePrevu|date:"d/m/Y" }}</strong>
+                  </li>
+
+                  <li class="mb-1">
+                    <span class="text-muted">Rendement estimé :</span>
+                    <strong>{{ culture.rendementEstime|floatformat:2 }} kg/ha</strong>
+                  </li>
+                  <li class="mb-1">
+                    <span class="text-muted">Rendement réel :</span>
+                    <strong>{{ culture.rendementReel|floatformat:2 }} kg/ha</strong>
+                  </li>
+
+                  <li class="mb-1">
+                    <span class="text-muted">Quantité semée :</span>
+                    <strong>{{ culture.quantiteSemee|floatformat:2 }} kg/ha</strong>
+                  </li>
+                </ul>
+              </div>
+              <div class="sdb-right">
+                <h6 class="mb-2">Récoltes</h6>
+                <ul class="list-unstyled m-0">
+                  {% for recolte in recoltes %}
+                  <li class="mb-1">
+                    <span class="text-muted">Date :</span>
+                    <strong>{{recolte.dateRecolte|date:"d/m/Y"}}</strong>
+                    &nbsp;|&nbsp;
+                    <span class="text-muted">Quantité récoltée :</span>
+                    <strong>{{recolte.quantiteRecoltee}} kg</strong>
+                  </li>
+                  {% empty %}
+                  <p>Aucune récolte enregistrée.</p>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+            <p>{{ culture.observation }}</p>
+            <blockquote>
+              <p>Tanora mamboly hazo, manan-kialofana raha fotsy volo</p>
+            </blockquote>
+          </div>
+          <!--Blog Single Content End-->
+        </div>
+        <!--Sidebar Start-->
+        <div class="col-lg-3 col-md-4">
+          <div class="sidebar">
+            <!--Widget Start-->
+            <div class="side-widget project-list-widget">
+              <h5>Ressources utilisées</h5>
+              <ul>
+                {% for culturesRessource in culturesRessources %}
+                <li>
+                  <a href="#">
+                    {{culturesRessource.ressource.nom}}
+                    ({{culturesRessource.quantiteResource|floatformat:2}}
+                    {{culturesRessource.ressource.unite.nom}})
+                  </a>
+                </li>
+                {% empty %}
+                <p>Aucune ressource utilisée.</p>
+                {% endfor %}
+              </ul>
+            </div>
+            <!--Widget End-->
+            <!--Widget Start-->
+            <div class="side-widget side-volunteer-form">
+              <h5>Faire une récolte</h5>
+              <form action="{% url 'new_recolte' %}" method="post">
+                {% csrf_token %}
+                <ul>
+                  <li>
+                    <input
+                      type="date"
+                      class="form-control"
+                      placeholder="Date de récolte"
+                      name="dateRecolte"
+                    />
+                  </li>
+                  <li>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Quantité récoltée (kg)"
+                      name="quantiteRecoltee"
+                    />
+                  </li>
+                  <li>
+                    <input
+                      type="hidden"
+                      class="form-control"
+                      name="culture"
+                      value="{{ culture.id }}"
+                    />
+                  </li>
+                  <li>
+                    <input type="submit" class="fsubmit" value="Récolter" />
+                  </li>
+                </ul>
+              </form>
+            </div>
+            <!--Widget End-->
+          </div>
+        </div>
+        <!--Sidebar End-->
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
