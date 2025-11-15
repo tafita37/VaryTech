@@ -55,12 +55,12 @@
 
                 <div class="col-md-4 mb-2">
                   <span class="text-muted">Quantité semée</span><br />
-                  <strong>{{ culture.quantiteSemee }} kg</strong>
+                  <strong>{{ culture.quantiteSemee|floatformat:2  }} kg</strong>
                 </div>
 
                 <div class="col-md-4 mb-2">
                   <span class="text-muted">Rendement estimé</span><br />
-                  <strong>{{ culture.rendementEstime }} kg</strong>
+                  <strong>{{ culture.rendementEstime|floatformat:2  }} kg</strong>
                 </div>
                 <p>{{ culture.observation }}</p>
               </div>
