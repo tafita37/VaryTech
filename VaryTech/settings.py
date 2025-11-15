@@ -85,10 +85,10 @@ WSGI_APPLICATION = 'VaryTech.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'varytech',
-        'USER': 'postgres',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',  # ou l’adresse du serveur
+        'NAME': 'varytech_db',
+        'USER': 'varytech_db_user',
+        'PASSWORD': 'oQ1XPgBW1QGXEXwYKaygtPeCjCAPDsnq',
+        'HOST': 'dpg-d4cc8ljipnbc739ckch0-a',  # ou l’adresse du serveur
         'PORT': '5432',       # port par défaut de PostgreSQL
     }
 }
