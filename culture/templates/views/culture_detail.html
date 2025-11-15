@@ -123,6 +123,9 @@
                   <li>
                     <input type="submit" class="fsubmit" value="Récolter" />
                   </li>
+                  {% for message in messages %}
+                  <div class="alert alert-warning">{{ message }}</div>
+                  {% endfor %}
                 </ul>
               </form>
             </div>

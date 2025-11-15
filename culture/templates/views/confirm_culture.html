@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <div class="alert alert-warning">
+    ⚠️ Les conditions météo ne sont pas favorables pour cette culture.
+  </div>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for key, value in data.items %}
+      <input type="hidden" name="{{ key }}" value="{{ value }}">
+    {% endfor %}
+    <button type="submit" name="confirm" value="1" class="btn btn-success">Confirmer et créer</button>
+    <a href="{% url 'culture_page' parcelle_id %}" class="btn btn-danger">Annuler</a>
+  </form>
+</div>
+{% endblock %}
