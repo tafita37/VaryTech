@@ -16,8 +16,8 @@
       </div>
 
       <div class="row">
+        {% for parcelle in parcelles %}
         <div class="col-md-4 col-sm-6">
-          {% for parcelle in parcelles %}
           <!--campaign box start-->
           <div class="campaign-box">
             <div class="campaign-thumb">
@@ -44,10 +44,10 @@
             </div>
             <a href="{% url 'culture_page' parcelle.id %}" class="dbutton">Voir les cultures</a>
           </div>
-          {% empty %}
-            <p>Aucune parcelle trouvée.</p>
-          {% endfor %}
         </div>
+        {% empty %}
+          <p>Aucune parcelle trouvée.</p>
+        {% endfor %}
       </div>
     </div>
   </div>
