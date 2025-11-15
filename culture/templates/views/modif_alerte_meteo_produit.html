@@ -1,0 +1,79 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block title %}Alerte Météo Culture{% endblock %} 
+
+{% block content %}
+<!--Contact Start-->
+<section class="contact-page wf100 p80">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="contact-form">
+          <form action="{% url 'modif_alerte_culture' %}" method="post">
+            {% csrf_token %}
+            <h3>Modifier l'alerte météo - {{produit.nom}}</h3>
+            <ul class="cform">
+              <li class="half pr-15">
+                <input 
+                  name="temperatureMin" 
+                  value="{{alerteCulture.temperatureMin}}" 
+                  type="number" 
+                  class="form-control" 
+                  placeholder="Température Minimale" 
+                />
+              </li>
+              <li class="half pr-15">
+                <input 
+                  name="temperatureMax" 
+                  value="{{alerteCulture.temperatureMax}}" 
+                  type="number" 
+                  class="form-control" 
+                  placeholder="Température Maximale" 
+                />
+              </li>
+              <li class="half pr-15">
+                <input 
+                  name="humiditeMin" 
+                  value="{{alerteCulture.humiditeMin}}" 
+                  type="number" 
+                  class="form-control" 
+                  placeholder="Humidité Minimale" 
+                />
+              </li>
+              <li class="half pr-15">
+                <input 
+                  name="humiditeMax" 
+                  value="{{alerteCulture.humiditeMax}}" 
+                  type="number" 
+                  class="form-control" 
+                  placeholder="Humidité Maximale" 
+                />
+              </li>
+              <li class
+                =" pr-15">
+                <input 
+                  name="vitesseVent" 
+                  value="{{alerteCulture.temperatureMin}}" 
+                  type="number" 
+                  class="form-control" 
+                  placeholder="Vitesse du Vent" 
+                />
+              </li>
+              <input 
+                type="hidden" 
+                name="produit_id" 
+                value="{{produit.id}}"
+              />
+              <li class="full">
+                <input type="submit" value="Modifier" class="fsubmit" />
+              </li>
+            </ul>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Contact End-->
+{% endblock %}
