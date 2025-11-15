@@ -1,0 +1,209 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block title %}Produits - VaryTech{% endblock %} 
+
+{% block content %}
+<section class="wf100 p80-40 blog">
+  <div class="causes-grid">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Liste des Produits</h3>
+        <!-- Bouton Créer -->
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#createproduitModal"
+        >
+          <i class="fas fa-plus"></i> Créer
+        </button>
+      </div>
+
+      <div class="row">
+        {% for produit in produits %}
+        <div class="col-md-4 col-sm-6">
+          <!--campaign box start-->
+          <div class="campaign-box">
+            <div class="campaign-txt">
+              <h5><a href="#">{{produit.nom}}</a></h5>
+              <ul class="funds">
+                <li>
+                  <strong>{{produit.prix|floatformat:2}} Ar</strong> Prix Unitaire
+                </li>
+              </ul>
+            </div>
+            <a href="{% url 'modif_alerte_meteo_produit_page' produit.id %}" class="dbutton"
+              >Modifier l'alerte météo</a
+            >
+          </div>
+        </div>
+        {% empty %}
+        <p>Aucune produit trouvée.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal -->
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="createproduitModal"
+  tabindex="-1"
+  aria-labelledby="createproduitLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form
+        method="post"
+        action="{% url 'new_produit' %}"
+        enctype="multipart/form-data"
+        id="multiStepForm"
+      >
+        {% csrf_token %}
+
+        <div class="modal-header">
+          <h5 class="modal-title">Créer un produit</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal">
+            X
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <!-- ----------------- ÉTAPE 1 ----------------- -->
+          <div class="step" id="step1">
+            <div class="mb-3">
+              <label class="form-label">Nom du produit</label>
+              <input
+                type="text"
+                name="nom"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Prix Unitaire</label>
+              <input
+                type="number"
+                name="prixUnitaire"
+                class="form-control"
+                required
+              />
+            </div>
+            <button
+              type="button"
+              class="btn btn-primary float-end"
+              onclick="nextStep()"
+            >
+              Suivant
+            </button>
+          </div>
+
+          <!-- ----------------- ÉTAPE 2 ----------------- -->
+          <div class="step d-none" id="step2">
+            <h6 class="mb-3">Alerte météo</h6>
+
+            <div class="mb-3">
+              <label class="form-label">Température Minimale</label>
+              <input
+                type="number"
+                name="temperatureMin"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Température Maximale</label>
+              <input
+                type="number"
+                name="temperatureMax"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Humidité Minimale</label>
+              <input
+                type="number"
+                name="humiditeMin"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Humidité Maximale</label>
+              <input
+                type="number"
+                name="humiditeMax"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Vitesse Vent</label>
+              <input
+                type="number"
+                name="vitesseVent"
+                class="form-control"
+                required
+              />
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="prevStep()"
+              >
+                Précédent
+              </button>
+              <button type="submit" class="btn btn-success">Créer</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentStep = 1;
+
+  function showStep(n) {
+    document
+      .querySelectorAll(".step")
+      .forEach((s) => s.classList.add("d-none"));
+    document.getElementById("step" + n).classList.remove("d-none");
+  }
+
+  function nextStep() {
+    currentStep++;
+    showStep(currentStep);
+  }
+
+  function prevStep() {
+    currentStep--;
+    showStep(currentStep);
+  }
+
+  // Ajout dynamique d'une ressource
+  document.getElementById("add-resource").onclick = function () {
+    let container = document.getElementById("resources-container");
+    let clone = container.children[0].cloneNode(true);
+    clone.querySelector("input").value = "";
+    container.appendChild(clone);
+  };
+
+  // Suppression
+  document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("remove-item")) {
+      if (document.querySelectorAll(".resource-item").length > 1) {
+        e.target.closest(".resource-item").remove();
+      }
+    }
+  });
+</script>
+} {% endblock %}
